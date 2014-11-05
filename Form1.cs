@@ -56,8 +56,8 @@ namespace TIiK
             s.OliczWszystko();
             watch.Stop();
 
-            
-            toolStripStatusLabel1.Text = string.Format("Entropia: {0}, czas obliczenia: {1}", s.Entropia.ToString(), watch.Elapsed.ToString());
+            double srednia = (double)s.NaIluZnakach() / (double)s.LiczbaZnakow();
+            toolStripStatusLabel1.Text = string.Format("Entropia: {0}, czas obliczenia: {1} Ilość znaków: {2} Średnia bitów na znak: {3} Na ilu bitach: {4} Średnia bitów na widomość {5}", s.Entropia.ToString(), watch.Elapsed.ToString(),s.LiczbaZnakow(),s.Srednia(),s.NaIluZnakach(), srednia );
             wyswietlWyniki(s);
 
         }

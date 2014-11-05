@@ -39,7 +39,7 @@ namespace TIiK
 
         public override string ToString()
         {
-            return string.Format("{0}\t{1}\t{2}", Wartosc, Wystapien, Entropia);
+            return string.Format("{0}\t{1}\t{2}\t{3}", Wartosc, Wystapien, Math.Round(Entropia,2), Math.Ceiling(Entropia));
         }
     }
 
@@ -80,7 +80,7 @@ namespace TIiK
 
             foreach (var znak in slownik)
             {
-                znak.Value.Prawdopodobienstwo = (znak.Value.Wystapien / slownik.Count);
+                znak.Value.Prawdopodobienstwo = (znak.Value.Wystapien / LiczbaZnakow());
                 znak.Value.Entropia = znak.Value.Prawdopodobienstwo * Math.Log(znak.Value.Prawdopodobienstwo, podstawa);
                 Entropia += znak.Value.Entropia;
             }
@@ -107,14 +107,40 @@ namespace TIiK
 
         public void OliczWszystko(int podstawa = 2)
         {
+            Entropia = 0;
             foreach (var znak in slownik)
             {
-                znak.Value.Prawdopodobienstwo = (znak.Value.Wystapien / (double)slownik.Count);
-                znak.Value.Entropia = znak.Value.Prawdopodobienstwo * Math.Log(znak.Value.Prawdopodobienstwo, podstawa);
-                Entropia += znak.Value.Entropia;
+                znak.Value.Prawdopodobienstwo = (znak.Value.Wystapien / (double)LiczbaZnakow());
+                znak.Value.Entropia = Math.Log(1/znak.Value.Prawdopodobienstwo, podstawa);
+                Entropia += znak.Value.Prawdopodobienstwo * znak.Value.Entropia;
             }
         }
+        public int LiczbaZnakow() {
+            int liczba = 0;
+            foreach (var item in slownik)
+            {
+                liczba += item.Value.Wystapien;
+            }
+            return liczba;
+        }
 
-      
+        public double Srednia() { 
+            double srednia = 0;
+
+            foreach (var znak in slownik){
+                srednia += Math.Ceiling(znak.Value.Entropia);
+            }
+            return srednia / slownik.Count();
+        }
+
+
+        public int NaIluZnakach() { 
+            double suma = 0;
+            foreach (var znak in slownik) {
+                suma += Math.Ceiling(znak.Value.Entropia) * znak.Value.Wystapien;
+            }
+
+            return (int)suma;
+        }
     }
 }
