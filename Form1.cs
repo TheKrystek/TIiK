@@ -41,7 +41,7 @@ namespace TIiK
                 {
                     string text = File.ReadAllText(filePath);
                     input.Text = text;
-                    ObliczEntropie(text);
+                   
                 }
             }
         }
@@ -56,8 +56,11 @@ namespace TIiK
             s.OliczWszystko();
             watch.Stop();
 
-            double srednia = (double)s.NaIluZnakach() / (double)s.LiczbaZnakow();
-            toolStripStatusLabel1.Text = string.Format("Entropia: {0}, czas obliczenia: {1} Ilość znaków: {2} Średnia bitów na znak: {3} Na ilu bitach: {4} Średnia bitów na widomość {5}", s.Entropia.ToString(), watch.Elapsed.ToString(),s.LiczbaZnakow(),s.Srednia(),s.NaIluZnakach(), srednia );
+            
+            toolStripStatusLabel1.Text = string.Format("Czas obliczeń: {0}", watch.Elapsed);
+            results.Text = "";
+            results.Text = string.Format("Entropia: {0}\r\nRozmiar w bajtach: {1}\r\nWiadomość zakodowana na bitach: {2}\r\nŚrednia długość kodu: {3}\r\nTeoretyczny minimalny rozmiar pliku po kompresji: {4}B\r\n",
+                s.Entropia,s.LiczbaZnakow(),s.NaIluZnakach(), s.Srednia(),s.TeoretycznyMinimalnyRozmiarplikupokompresji());
             wyswietlWyniki(s);
 
         }
@@ -65,6 +68,13 @@ namespace TIiK
         private void oblicz_Click(object sender, EventArgs e)
         {
             ObliczEntropie(input.Text);
+           
+            ShannonFano.Kompresuj(s.slownik.ToList());
+            foreach (var sl in s.slownik)
+            {
+                input.Text += string.Format("{0}\r\n", sl.Value.Kod);
+            }
+            results.Text += string.Format("Średnia długość kodu przy kowaniu Shannona-Fano: {0}\r\nEfektywność kodowania Shannona-Fano: {1}%", s.SredniaShannonaFano(),s.EfektywnoscKodowania());
         }
 
     

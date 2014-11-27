@@ -15,7 +15,15 @@ namespace TIiK
         public string Wartosc;
 
         private double entropia;
-        public double Entropia
+      private string kod ="";
+
+      public string Kod
+      {
+          get { return kod; }
+          set { kod = value; }
+      }
+
+      public double Entropia
         {
             set { entropia = value; }
             get
@@ -39,7 +47,7 @@ namespace TIiK
 
         public override string ToString()
         {
-            return string.Format("{0}\t{1}\t{2}\t{3}", Wartosc, Wystapien, Math.Round(Entropia,2), Math.Ceiling(Entropia));
+            return string.Format("{0}\t{1} ({4})\t{2}\t{3}", Wartosc, Wystapien, Math.Round(Entropia,2), Math.Ceiling(Entropia),Math.Round(Prawdopodobienstwo,2));
         }
     }
 
@@ -124,13 +132,9 @@ namespace TIiK
             return liczba;
         }
 
-        public double Srednia() { 
-            double srednia = 0;
-
-            foreach (var znak in slownik){
-                srednia += Math.Ceiling(znak.Value.Entropia);
-            }
-            return srednia / slownik.Count();
+        public double Srednia() {
+            double srednia = (double)NaIluZnakach() / (double)LiczbaZnakow();
+            return srednia;
         }
 
 
@@ -142,5 +146,29 @@ namespace TIiK
 
             return (int)suma;
         }
+
+
+      public double SredniaShannonaFano()
+      {
+          double srednia = 0;
+          foreach (KeyValuePair<string, Znak> pair in slownik)
+          {
+              srednia += pair.Value.Prawdopodobienstwo*pair.Value.Kod.Length;
+          }
+          return srednia;
+      }
+
+      public double EfektywnoscKodowania()
+      {
+          return Math.Round((Entropia/SredniaShannonaFano()*100),2);
+      }
+
+      public int TeoretycznyMinimalnyRozmiarplikupokompresji()
+      {
+          return (int) Math.Ceiling(Entropia*LiczbaZnakow()/8);
+      }
+
+
+
     }
 }
