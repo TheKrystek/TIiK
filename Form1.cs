@@ -177,24 +177,6 @@ namespace TIiK
 
 
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-
-
-            /* MyObject obj = new MyObject();
-             byte[] bytes;
-             IFormatter formatter = new BinaryFormatter();
-             using (MemoryStream stream = new MemoryStream())
-             {
-                 formatter.Serialize(stream, obj);
-                 bytes = stream.ToArray();
-             }
-             * */
-
-            zapiszDoPliku();
-            wczytajZPliku();
-        }
 
 
         private string ZakodujWiadomosc()
@@ -230,18 +212,13 @@ namespace TIiK
         {
             using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
-                Header h = konstrujNaglowek();
-                byte[] headerBytes = h.ToBytes();
-                writer.Write(headerBytes);
+               // Header h = konstrujNaglowek();
+                //byte[] headerBytes = h.ToBytes();
+                //writer.Write(headerBytes);
                 string zakodowane = ZakodujWiadomosc();
                 sfo.Text = zakodowane;
-                int l = zakodowane.Length;
-                for (int i = 0; i < l; i++)
-                {
-                    string part = zakodowane.Substring(32 * i, (l < 32 ? l : 32));
-                    writer.Write(StringToByte.ToByte(part));
-                    l -= 32;
-                }
+                byte[] toWrite = StringToByte.ToByte(zakodowane);
+                writer.Write(toWrite);
             }
 
         }
@@ -255,13 +232,16 @@ namespace TIiK
             Header h = new Header();
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            h = (Header)formatter.Deserialize(stream);
+            //h = (Header)formatter.Deserialize(stream);
 
             int pozostalo = (int)(stream.Length - stream.Position);
             byte[] bytes = new byte[pozostalo];
             stream.Read(bytes, 0, pozostalo);
             stream.Close();
 
+
+
+            /*
             int minSize = -1;
             foreach (Trojka t in h.trojki)
             {
@@ -329,12 +309,30 @@ namespace TIiK
 
 
             }
+             * *
+        */
            // sfo.Text += odkodowane;
+        }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            byte inp = 0xAD;
+            byte result = BinaryStream.Read(inp, 4, 4);
+            //Debug.Print("{0}",result);
 
+            string str = "00000000000000000000000000000001010101010101101010101010110110110110110110111111111111111";
+            byte[] b = StringToByte.ToByte(sfo.Text);
+            foreach (byte b1 in b)
+            {
+                Debug.Print("{0}",b1);
+            }
 
+        }
 
-
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            zapiszDoPliku();
+            wczytajZPliku();
         }
 
 

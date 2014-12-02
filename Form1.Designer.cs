@@ -42,21 +42,22 @@
             this.otworz = new System.Windows.Forms.Button();
             this.input = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.results = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.sf = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.sfo = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.results = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -96,6 +97,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Controls.Add(this.button5);
             this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.button1);
@@ -198,6 +201,41 @@
             this.tabPage2.Text = "Shannon-Fano";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.sf);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.sfo);
+            this.splitContainer1.Size = new System.Drawing.Size(715, 438);
+            this.splitContainer1.SplitterDistance = 238;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // sf
+            // 
+            this.sf.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sf.Location = new System.Drawing.Point(0, 0);
+            this.sf.Multiline = true;
+            this.sf.Name = "sf";
+            this.sf.Size = new System.Drawing.Size(715, 238);
+            this.sf.TabIndex = 1;
+            // 
+            // sfo
+            // 
+            this.sfo.Location = new System.Drawing.Point(8, 8);
+            this.sfo.Multiline = true;
+            this.sfo.Name = "sfo";
+            this.sfo.Size = new System.Drawing.Size(715, 156);
+            this.sfo.TabIndex = 2;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.results);
@@ -219,51 +257,25 @@
             this.results.Size = new System.Drawing.Size(715, 438);
             this.results.TabIndex = 10;
             // 
-            // splitContainer1
+            // button5
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.sf);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.sfo);
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Size = new System.Drawing.Size(715, 438);
-            this.splitContainer1.SplitterDistance = 238;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // sf
-            // 
-            this.sf.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sf.Location = new System.Drawing.Point(0, 0);
-            this.sf.Multiline = true;
-            this.sf.Name = "sf";
-            this.sf.Size = new System.Drawing.Size(715, 238);
-            this.sf.TabIndex = 1;
+            this.button5.Location = new System.Drawing.Point(485, 415);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 9;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(635, 170);
+            this.button4.Location = new System.Drawing.Point(390, 416);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 0;
+            this.button4.TabIndex = 10;
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // sfo
-            // 
-            this.sfo.Location = new System.Drawing.Point(8, 8);
-            this.sfo.Multiline = true;
-            this.sfo.Name = "sfo";
-            this.sfo.Size = new System.Drawing.Size(715, 156);
-            this.sfo.TabIndex = 2;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // Form1
             // 
@@ -282,14 +294,14 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,8 +327,9 @@
         private System.Windows.Forms.TextBox results;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox sf;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox sfo;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
     }
 }
 
