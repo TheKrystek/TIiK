@@ -13,26 +13,24 @@ namespace TIiK
 
         public static void Kompresuj(List<KeyValuePair<string, Znak>> input)
         {
-            ZnajdzMinimalnaRoznice(input, '0' ,1);
+            ZnajdzMinimalnaRoznice(input);
         }
 
 
 
-        public static void ZnajdzMinimalnaRoznice(List<KeyValuePair<string, Znak>> input, char znak, double pr)
+        public static void ZnajdzMinimalnaRoznice(List<KeyValuePair<string, Znak>> input)
         {
             // Jezeli lista ma jeden element to dopisz znak i wyjdz
-            if (input.Count < 2)
-            {
+            if (input.Count == 1)
                 return;
-            }
+          
 
             // Posortuj liste wg prawdopodobienstwa
             //var posortowane = input.OrderByDescending(x => x.Value.Prawdopodobienstwo);
 
             double sum_down = 0;
-            double sum_up = pr;
+            double sum_up = input.Sum(x => x.Value.Prawdopodobienstwo);
             double min_value = 2;
-            double min_pr = pr;//input.Sum(x => x.Value.Prawdopodobienstwo);
             int index = 0;
 
             int i = 0;
@@ -45,7 +43,6 @@ namespace TIiK
                 {
                     index = i;
                     min_value = diff;
-                    min_pr = sum_up;
                     Debug.Print("min: " + min_value.ToString());
                 }
                 i++;
@@ -60,24 +57,18 @@ namespace TIiK
                 if (i <= index)
                 {
                     lower.Add(pair);
+                    pair.Value.Kod += '0';
                 }
                 else
                 {
                     upper.Add(pair);
+                    pair.Value.Kod += '1';
                 }
                 i++;
             }
 
-            if (lower.Count == 1) {
-                lower.First().Value.Kod += znak;
-                foreach (KeyValuePair<string, Znak> up in upper)
-                {
-                    up.Value.Kod += (znak == '1' ? '0' : '1');
-                }
-            }
-
-            ZnajdzMinimalnaRoznice(lower,'1',min_pr);
-            ZnajdzMinimalnaRoznice(upper,'0',min_pr);
+            ZnajdzMinimalnaRoznice(lower);
+            ZnajdzMinimalnaRoznice(upper);
 
         }
     }

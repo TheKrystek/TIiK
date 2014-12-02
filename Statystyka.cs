@@ -16,7 +16,7 @@ namespace TIiK
 
         private double entropia;
       private string kod ="";
-
+      public int DlugoscKodu;
       public string Kod
       {
           get { return kod; }
