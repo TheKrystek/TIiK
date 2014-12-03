@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryStream.cs" />
+    <Compile Include="ByteToString.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

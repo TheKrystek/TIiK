@@ -201,7 +201,7 @@ namespace TIiK
                 h.trojki[i] = new Trojka();
                 h.trojki[i].znak = symbol.Key[0];
                 h.trojki[i].dlugosc = (byte)symbol.Value.Kod.Length;
-                h.trojki[i].kod = BitConverter.ToInt32(StringToByte.ToByte(symbol.Value.Kod), 0);
+                h.trojki[i].kod = StringToByte.OnTwoBytes(symbol.Value.Kod, symbol.Value.Kod.Length);
                 i++;
             }
 
@@ -212,9 +212,9 @@ namespace TIiK
         {
             using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
-               // Header h = konstrujNaglowek();
-                //byte[] headerBytes = h.ToBytes();
-                //writer.Write(headerBytes);
+                Header h = konstrujNaglowek();
+                byte[] headerBytes = h.ToBytes();
+                writer.Write(headerBytes);
                 string zakodowane = ZakodujWiadomosc();
                 sfo.Text = zakodowane;
                 byte[] toWrite = StringToByte.ToByte(zakodowane);
@@ -232,16 +232,38 @@ namespace TIiK
             Header h = new Header();
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            //h = (Header)formatter.Deserialize(stream);
+            // wczytaj 2 bajty
+            byte[] buffor = new byte[2];
+            stream.Read(buffor, 0, 2);
+            UInt16 trojek = BitConverter.ToUInt16(buffor, 0);
+
+            h.liczbaTrojek = trojek;
+            h.trojki = new Trojka[trojek];
+
+
+            // wczytaj rozmiar liczbe trojek razy 4
+            buffor = new byte[4 * trojek];
+            stream.Read(buffor, 0, 4*trojek);
+            for (int i = 0; i < trojek; i++)
+            {
+                int poz = 4*i;
+                Trojka t = new Trojka();
+                t.znak = (char) buffor[poz];
+                t.dlugosc = buffor[poz + 1];
+                t.kod = new byte[2];
+                t.kod[0] = buffor[poz + 2];
+                t.kod[1] = buffor[poz + 3];
+                h.trojki[i] = t;
+            }
+
+
 
             int pozostalo = (int)(stream.Length - stream.Position);
             byte[] bytes = new byte[pozostalo];
             stream.Read(bytes, 0, pozostalo);
             stream.Close();
 
-
-
-            /*
+            
             int minSize = -1;
             foreach (Trojka t in h.trojki)
             {
@@ -253,23 +275,16 @@ namespace TIiK
 
             sfo.Text += Environment.NewLine;
             string zakodowaneBin = "";
-            for (int i = 0; i < pozostalo; i += 4)
-            {
-                byte[] tmpBytes = new byte[4];
-                tmpBytes[0] = bytes[i];
-                tmpBytes[1] = bytes[i + 1];
-                tmpBytes[2] = bytes[i + 2];
-                tmpBytes[3] = bytes[i + 3];
-                int tmp = BitConverter.ToInt32(tmpBytes, 0);
-                zakodowaneBin += Convert.ToString(tmp, 2);
-            }
+            zakodowaneBin = ByteToString.ToString(bytes);
             sfo.Text += zakodowaneBin;
+
 
             Dictionary<char, Znak> znakDictionary = new Dictionary<char, Znak>();
             foreach (Trojka t in h.trojki)
             {
                 Znak z = new Znak(t.znak.ToString());
-                z.Kod = Convert.ToString(t.kod, 2); ;
+                //todo
+                z.Kod = ByteToString.ToString(t.kod,t.dlugosc);
                 z.DlugoscKodu = t.dlugosc;
                 znakDictionary.Add(t.znak, z);
             }
@@ -309,10 +324,10 @@ namespace TIiK
 
 
             }
-             * *
-        */
-           // sfo.Text += odkodowane;
-        }
+        
+           sfo.Text += odkodowane;
+  
+ }
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -324,7 +339,7 @@ namespace TIiK
             byte[] b = StringToByte.ToByte(sfo.Text);
             foreach (byte b1 in b)
             {
-                Debug.Print("{0}",b1);
+                Debug.Print("{0}", b1);
             }
 
         }
